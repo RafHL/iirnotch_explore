@@ -46,7 +46,7 @@ except (OSError, IOError) as e:
     the_mags = np.ones([53, w.size])
     for i in range(53):
         the_mags[i] *= approx_filter(w, num, den, i)
-    pickle.dump(foo, open("the_mags.pickle", "wb"))
+    pickle.dump(the_mags, open("the_mags.pickle", "wb"))
 
 # Add one slider for tweaking the parameters
 # Define an axes area and draw a slider in it
