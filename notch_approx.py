@@ -39,6 +39,15 @@ w = np.linspace(0, 2*np.pi, num=2**int(fs).bit_length())
 [line] = ax.semilogx(w, approx_filter(w, num, den, digit))
 ax.set_ylim([-100, 20])
 
+# Modified from https://stackoverflow.com/a/26835559
+try:
+    the_mags = pickle.load(open("the_mags.pickle", "rb"))
+except (OSError, IOError) as e:
+    the_mags = np.ones([53, w.size])
+    for i in range(53):
+        the_mags[i] *= approx_filter(w, num, den, i)
+    pickle.dump(foo, open("the_mags.pickle", "wb"))
+
 # Add one slider for tweaking the parameters
 # Define an axes area and draw a slider in it
 digit_slider_ax  = fig.add_axes([0.25, 0.15, 0.65, 0.03])
@@ -51,12 +60,3 @@ def sliders_on_changed(val):
 digit_slider.on_changed(sliders_on_changed)
 
 plt.show()
-
-# Modified from https://stackoverflow.com/a/26835559
-try:
-    the_mags = pickle.load(open("the_mags.pickle", "rb"))
-except (OSError, IOError) as e:
-    the_mags = np.ones([53, w.size])
-    for i in range(53):
-        the_mags[i] *= approx_filter(w, num, den, i)
-    pickle.dump(foo, open("the_mags.pickle", "wb"))
