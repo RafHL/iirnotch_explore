@@ -29,14 +29,14 @@ fig.subplots_adjust(bottom=0.25)
 digit = 52
 fs = 10e6
 f0 = 60
-bw = 5
+bw = 20
 q = f0/bw
 num, den = scipy.signal.iirnotch(f0, q, fs=fs)
-w = np.linspace(0, 2*np.pi, num=2**int(fs).bit_length())
+w = np.linspace(0, np.pi, num=2**int(fs).bit_length())
 
 # Draw the initial plot
 # The 'line' variable is used for modifying the line later
-[line] = ax.semilogx(w, approx_filter(w, num, den, digit))
+[line] = ax.semilogx(fs*w/np.pi/2, approx_filter(w, num, den, digit))
 ax.set_ylim([-100, 20])
 
 # Modified from https://stackoverflow.com/a/26835559
@@ -51,7 +51,7 @@ except (OSError, IOError) as e:
 # Add one slider for tweaking the parameters
 # Define an axes area and draw a slider in it
 digit_slider_ax  = fig.add_axes([0.25, 0.15, 0.65, 0.03])
-digit_slider = Slider(digit_slider_ax, 'Digits', 0, 52, valinit=digit)
+digit_slider = Slider(digit_slider_ax, 'Digits', 0, 52, valinit=digit, valstep=1)
 
 # Define an action for modifying the line when any slider's value changes
 def sliders_on_changed(val):
