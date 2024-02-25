@@ -1,8 +1,11 @@
 # Modified from the interactive plot example at https://stackoverflow.com/a/6697555
-from numpy import pi, sin
-import numpy as np
+import pickle
+import scipy
 import matplotlib.pyplot as plt
+import numpy as np
+from numpy import pi, sin
 from matplotlib.widgets import Slider, Button, RadioButtons
+from fixedpoint import approx
 
 def approx_filter(w, num, den, dig):
     _num = approx(num, dig)
@@ -48,3 +51,12 @@ def sliders_on_changed(val):
 digit_slider.on_changed(sliders_on_changed)
 
 plt.show()
+
+# Modified from https://stackoverflow.com/a/26835559
+try:
+    the_mags = pickle.load(open("the_mags.pickle", "rb"))
+except (OSError, IOError) as e:
+    the_mags = np.ones([53, w.size])
+    for i in range(53):
+        the_mags[i] *= approx_filter(w, num, den, i)
+    pickle.dump(foo, open("the_mags.pickle", "wb"))
