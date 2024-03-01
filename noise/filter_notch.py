@@ -12,7 +12,9 @@ def filter_csv(num, den, filename):
     filtered = scipy.signal.lfilter(num, den, value)
 
     odf = pd.DataFrame({"Timestamp": times, "HF Channel Value": filtered})
-    odf.to_csv("filtered_" + filename, index=False)
+    csvname = "filtered_" + filename
+    odf.to_csv(csvname, index=False)
+    print(f"Saved csv: '{csvname}'")
 
 fs = 10e6
 f0 = 60
@@ -25,4 +27,3 @@ if len(sys.argv) > 1:
 
     for name in names:
         filter_csv(num, den, name)
-
