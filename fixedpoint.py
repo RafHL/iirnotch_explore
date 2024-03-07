@@ -4,7 +4,9 @@ def approx(value, digits):
     return fixp2dec(fixp(value, digits))
 
 def fixp(value, digits=np.inf):
-    return [binary(v, -digits) for v in value]
+    if len(value) > 1:
+        return [binary(v, -digits) for v in value]
+    return binary(value, -digits)
 
 def binary(value, stop=0):
     if value < 0:
@@ -37,7 +39,9 @@ def binary(value, stop=0):
     return fixp
 
 def fixp2dec(value, digits=np.inf):
-    return [unbinary(v, digits) for v in value]
+    if len(value) > 1:
+        return [unbinary(v, digits) for v in value]
+    unbinary(value, digits)
 
 def unbinary(value, digits=0):
     whole, frac = value.split('.')
