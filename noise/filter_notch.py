@@ -23,11 +23,11 @@ def filter_csv(num, den, filename):
 #q = f0/bw
 # Feedback: Q too high, want 55 Hz down too. 5 MHz sampling freq, not 10 MHz
 
+# cheby2
 fs = 5e6
-f0 = 60
-bw = 40
-q = f0/bw
-num, den = scipy.signal.iirnotch(f0, q, fs=fs)
+f_lo = 54
+f_hi = 61
+num, den = scipy.signal.cheby2(1, 12, [f_lo, f_hi], fs=fs, btype='bandstop')
 
 if len(sys.argv) > 1:
     names = sys.argv[1:]
