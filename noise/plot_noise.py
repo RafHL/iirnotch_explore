@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def plot_noise(filename, show=False):
-    fs = 10e6
+    fs = 5e6
     df = pd.read_csv(filename)
 
     times = df["Timestamp"].values

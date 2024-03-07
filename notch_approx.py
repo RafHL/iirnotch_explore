@@ -27,11 +27,32 @@ ax = fig.add_subplot(111)
 fig.subplots_adjust(bottom=0.25)
 
 digit = 52
-fs = 10e6
-f0 = 60
-bw = 20
-q = f0/bw
-num, den = scipy.signal.iirnotch(f0, q, fs=fs)
+
+# Filter 1:
+#fs = 10e6
+#f0 = 60
+#bw = 20
+#q = f0/bw
+#num, den = scipy.signal.iirnotch(f0, q, fs=fs)
+
+## cheby2 high pass not as good attenuation at 50-60 Hz
+#fs = 5e6
+#f_hi = 80
+#num, den = scipy.signal.cheby2(1, 3, f_hi, fs=fs, btype='highpass')
+
+## Butter example from https://dsp.stackexchange.com/a/49435
+## Butter reference from https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.butter.html
+#fs = 5e6
+#f_lo = 50
+#f_hi = 70
+#num, den = scipy.signal.butter(1, [f_lo, f_hi], fs=fs, btype='bandstop')
+
+# cheby2
+fs = 5e6
+f_lo = 54
+f_hi = 61
+num, den = scipy.signal.cheby2(1, 12, [f_lo, f_hi], fs=fs, btype='bandstop')
+
 w = np.linspace(0, np.pi, num=2**int(fs).bit_length())
 
 # Draw the initial plot
