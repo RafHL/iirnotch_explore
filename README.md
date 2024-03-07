@@ -15,19 +15,29 @@ magnitude response approximations.
 
 ## Directions
 Fixedpoint:
-- approx(value, digits) rounds `value` to `digits` bit fractional places
-- fixp(value[, digits]) returns a string with the binary fixed point
+- approx(value, digits) rounds `value` to `digits` bit fractional places, value can be a list or a single value
+- fixp(value[, value, ..., digits=<fractional bits wanted>]) returns a string with the binary fixed point. Could also use fixp(*list, digits=<frac bits>)
   represenation of `value` to an optional amount of `digits` fractional places
-- fixp2dec(value[, digits]) converts a binary fixed point string to a floating
+- fixp2dec(value[, value, ..., digits=<fractional bits wanted>]) converts a binary fixed point string to a floating Could also use fixp2dec(*list, digits=<frac bits>)
   point representation.
 
 Examples:
 ```
 import fixedpoint
 
+# Examples using single values
 print(approx(10.33, 4)) # Approximate 10.33 to 4 binary fraction places
 print(fixp(10.33))      # Print 10.33's fixedpoint representation
 print(fixp2dec('1010.111')) # Print floating point value for b1010.111
+
+# Examples using lists
+print(approx([10.33, .2], 4)) # Approximate 10.33 to 4 binary fraction places
+print(fixp(*[10.33, .2]))      # Print 10.33's fixedpoint representation
+print(fixp2dec(*['1010.111', '1.1101'])) # Print floating point value for b1010.111
+
+# Examples using multiple values
+print(fixp(10.33, .2))      # Print 10.33's fixedpoint representation
+print(fixp2dec('1010.111', '1.1101')) # Print floating point value for b1010.111
 ```
 
 Notch Approximation GUI:
