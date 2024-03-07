@@ -47,11 +47,18 @@ digit = 52
 #f_hi = 70
 #num, den = scipy.signal.butter(1, [f_lo, f_hi], fs=fs, btype='bandstop')
 
+## cheby2 Good stuff
+#fs = 5e6
+#f_lo = 54
+#f_hi = 61
+#num, den = scipy.signal.cheby2(1, 12, [f_lo, f_hi], fs=fs, btype='bandstop')
+
 # cheby2
 fs = 5e6
-f_lo = 54
-f_hi = 61
-num, den = scipy.signal.cheby2(1, 12, [f_lo, f_hi], fs=fs, btype='bandstop')
+f_lo = 1
+f_hi = 60
+num, den = scipy.signal.cheby2(2, 30, f_hi, fs=fs,
+btype='highpass')
 
 w = np.linspace(0, np.pi, num=2**int(fs).bit_length())
 

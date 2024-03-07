@@ -1,12 +1,12 @@
 import numpy as np
 
 def approx(value, digits):
-    return fixp2dec(fixp(value, digits))
+    if not hasattr(value, "__len__"):
+        value = [value]
+    return fixp2dec(*fixp(*value, digits=digits))
 
-def fixp(value, digits=np.inf):
-    if len(value) > 1:
-        return [binary(v, -digits) for v in value]
-    return binary(value, -digits)
+def fixp(*value, digits=np.inf):
+    return [binary(v, -digits) for v in value]
 
 def binary(value, stop=0):
     if value < 0:
@@ -15,11 +15,8 @@ def binary(value, stop=0):
     else:
         fixp = ''
 
-    if value >= 1:
-        fixp += f"{int(value):b}."
-        value -= int(value)
-    else:
-        fixp += "0."
+    fixp += f"{int(value):b}."
+    value -= int(value)
 
     if stop >= 0:
         return fixp
@@ -38,27 +35,15 @@ def binary(value, stop=0):
 
     return fixp
 
-def fixp2dec(value, digits=np.inf):
-    if len(value) > 1:
-        return [unbinary(v, digits) for v in value]
-    unbinary(value, digits)
+def fixp2dec(*value, digits=np.inf):
+    return [unbinary(v, digits) for v in value]
 
 def unbinary(value, digits=0):
     whole, frac = value.split('.')
     decimal = float(abs(int(whole, 2)))
 
-    cur_val = 2.**-1
-
-    for ind,b in enumerate(frac):
-        if ind >= digits:
-            break
-
-        if b[0] == '1':
-            decimal += cur_val
-
-        cur_val /= 2.
-
-    if whole[0] == '-':
-        decimal *= -1
+    if len(frac):
+        res = 2**(-len(frac))
+        decimal += int(frac,2)*res
 
     return decimal
