@@ -7,12 +7,12 @@ from numpy import pi, sin
 from matplotlib.widgets import Slider, Button, RadioButtons
 from fixedpoint import approx
 
-def approx_filter(w, num, den, dig):
+def approx_filter(fs, w, num, den, dig):
     _num = approx(num, dig)
     _den = approx(den, dig)
 
-    print("num for", dig, _num)
-    print("den for", dig, _den)
+    [print(f"num for {dig} is {n:.53f}") for n in _num]
+    [print(f"den for {dig} is {d:.53f}") for d in _den]
     print()
 
     sys = scipy.signal.TransferFunction(_num, _den, dt=1/fs)
@@ -47,24 +47,25 @@ digit = 52
 #f_hi = 70
 #num, den = scipy.signal.butter(1, [f_lo, f_hi], fs=fs, btype='bandstop')
 
-## cheby2 Good stuff
-#fs = 5e6
-#f_lo = 54
-#f_hi = 61
-#num, den = scipy.signal.cheby2(1, 12, [f_lo, f_hi], fs=fs, btype='bandstop')
-
-# cheby2
+# cheby2 Good stuff
 fs = 5e6
-f_lo = 1
-f_hi = 60
-num, den = scipy.signal.cheby2(2, 30, f_hi, fs=fs,
-btype='highpass')
+f_lo = 54
+f_hi = 61
+num, den = scipy.signal.cheby2(1, 12, [f_lo, f_hi], fs=fs, btype='bandstop')
+[print(f"num {n:.53f}") for n in num]
+[print(f"den {d:.53f}") for d in den]
+
+## cheby2
+#fs = 5e6
+#f_lo = 1
+#f_hi = 60
+#num, den = scipy.signal.cheby2(2, 30, [f_lo, f_hi], fs=fs, btype='highpass')
 
 w = np.linspace(0, np.pi, num=2**int(fs).bit_length())
 
 # Draw the initial plot
 # The 'line' variable is used for modifying the line later
-[line] = ax.semilogx(fs*w/np.pi/2, approx_filter(w, num, den, digit))
+[line] = ax.semilogx(fs*w/np.pi/2, approx_filter(fs, w, num, den, digit))
 ax.set_ylim([-100, 20])
 
 # Modified from https://stackoverflow.com/a/26835559
@@ -73,7 +74,7 @@ try:
 except (OSError, IOError) as e:
     the_mags = np.ones([53, w.size])
     for i in range(53):
-        the_mags[i] *= approx_filter(w, num, den, i)
+        the_mags[i] *= approx_filter(fs, w, num, den, i)
     pickle.dump(the_mags, open("the_mags.pickle", "wb"))
 
 # Add one slider for tweaking the parameters

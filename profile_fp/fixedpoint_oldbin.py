@@ -24,11 +24,8 @@ def binary(value, digits=np.inf):
         fixp = ''
 
     # Convert the whole number portion first
-    if value >= 1:
-        fixp += f"{int(value):b}."
-        value -= int(value)
-    else:
-        fixp += "0."
+    fixp += f"{int(value):b}."
+    value -= int(value)
 
     cur_val = 2.**-1
     end_val = 2.**-digits
@@ -56,27 +53,19 @@ def fixp2dec(*value, digits=np.inf):
     return [unbinary(v, digits) for v in value]
 
 def unbinary(value, digits=0):
-    # The number of fractional digits wanted is always positive
-    digits = abs(digits)
-
-    # Split the number into whole and fractional bits
     whole, frac = value.split('.')
-
-    # Convert the whole bits first
     decimal = float(abs(int(whole, 2)))
 
-    # Convert the fractional bits
-    frac_len = len(frac)
-    if digits > 0 and frac_len > 0:
-        if digits > frac_len:
-            digits = frac_len
+    cur_val = 2.**-1
 
-        # The resolution for how many digits were requested
-        #     The ``value`` of each bit
-        res = 2**-digits
-        # The resolution times the required bits gives the fractional component
-        #     ``value`` of each bit * decimal value for these bits
-        decimal += int(frac[:digits], 2)*res
+    for ind,b in enumerate(frac):
+        if ind >= digits:
+            break
+
+        if b[0] == '1':
+            decimal += cur_val
+
+        cur_val /= 2.
 
     if whole[0] == '-':
         decimal *= -1
