@@ -11,8 +11,8 @@ def approx_filter(fs, w, num, den, dig):
     _num = approx(num, dig)
     _den = approx(den, dig)
 
-    [print(f"num for {dig} is {n:56.53f}") for n in _num]
-    [print(f"den for {dig} is {d:56.53f}") for d in _den]
+    [print(f"{dig:2}'num[{i}] = {n:56.53f}") for i,n in enumerate(_num)]
+    [print(f"{dig:2}'den[{i}] = {d:56.53f}") for i,d in enumerate(_den)]
     print()
 
     sys = scipy.signal.TransferFunction(_num, _den, dt=1/fs)
@@ -52,8 +52,9 @@ fs = 5e6
 f_lo = 54
 f_hi = 61
 num, den = scipy.signal.cheby2(1, 12, [f_lo, f_hi], fs=fs, btype='bandstop')
-[print(f"num {n:56.53f}") for n in num]
-[print(f"den {d:56.53f}") for d in den]
+[print(f"num[{i}] = {n:56.53f}") for i,n in enumerate(num)]
+[print(f"den[{i}] = {d:56.53f}") for i,d in enumerate(den)]
+print()
 
 ## cheby2
 #fs = 5e6
