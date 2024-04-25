@@ -26,18 +26,18 @@ Examples:
 import fixedpoint
 
 # Examples using single values
-print(approx(10.33, 4)) # Approximate 10.33 to 4 binary fraction places
-print(fixp(10.33))      # Print 10.33's fixedpoint representation
-print(fixp2dec('1010.111')) # Print floating point value for b1010.111
+print(fixedpoint.approx(10.33, 4)) # Approximate 10.33 to 4 binary fraction places
+print(fixedpoint.fixp(10.33))      # Print 10.33's fixedpoint representation
+print(fixedpoint.fixp2dec('1010.111')) # Print floating point value for b1010.111
 
 # Examples using lists
-print(approx([10.33, .2], 4)) # Approximate 10.33 to 4 binary fraction places
-print(fixp(*[10.33, .2]))      # Print 10.33's fixedpoint representation
-print(fixp2dec(*['1010.111', '1.1101'])) # Print floating point value for b1010.111
+print(fixedpoint.approx([10.33, .2], 4)) # Approximate 10.33 to 4 binary fraction places
+print(fixedpoint.fixp(*[10.33, .2]))      # Print 10.33's fixedpoint representation
+print(fixedpoint.fixp2dec(*['1010.111', '1.1101'])) # Print floating point value for b1010.111
 
 # Examples using multiple values
-print(fixp(10.33, .2))      # Print 10.33's fixedpoint representation
-print(fixp2dec('1010.111', '1.1101')) # Print floating point value for b1010.111
+print(fixedpoint.fixp(10.33, .2))      # Print 10.33's fixedpoint representation
+print(fixedpoint.fixp2dec('1010.111', '1.1101')) # Print floating point value for b1010.111
 ```
 
 Notch Approximation GUI:
