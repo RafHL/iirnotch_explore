@@ -1,9 +1,7 @@
 # Modified from the interactive plot example at https://stackoverflow.com/a/6697555
-import pickle
 import scipy
-import matplotlib.pyplot as plt
 import numpy as np
-from numpy import pi, sin
+import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
 from fixedpoint import approx
 
